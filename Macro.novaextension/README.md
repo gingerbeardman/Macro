@@ -51,7 +51,11 @@ Last Macro refers to the one most recently recorded—the one at the bottom of t
 
 ## Recording
 
-A nofication will signal recording has begun. When done, you select Stop and the macro will be automatically saved to the sidebar. You can then replay, compress, delete, etc. the recorded macro.
+A notification will signal recording has begun. When done, you select the Stop button in the notification and the macro will be automatically saved to the sidebar.
+
+You can also start the recording using the sidebar icons, or command, but it will always need to be stopped through the notification.
+
+After recording you can choose to replay, compress, copy, delete, etc. each macro.
 
 ### Actions
 
