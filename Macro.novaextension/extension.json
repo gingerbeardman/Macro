@@ -1,0 +1,177 @@
+{
+    "bugs": "https://github.com/gingerbeardman/Macros/issues",
+    "description": "Record and replay text editing",
+    "funding": "https://ko-fi.com/gingerbeardman",
+    "homepage": "https://www.gingerbeardman.com",
+    "identifier": "com.gingerbeardman.Macro",
+    "name": "Macro",
+    "organization": "gingerbeardman",
+    "repository": "https://github.com/gingerbeardman/Macros",
+    "version": "1.0.0",
+    
+    "categories": ["sidebars"],
+    
+    "main": "main.js",
+    
+    "activationEvents": [
+        "onLanguage:*"
+    ],
+    
+    "entitlements": {
+        "clipboard": true
+    },
+    
+    "config": [
+        {
+            "title": "Recording",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.gingerbeardman.Macro.recordSelectionActions",
+                    "title": "Selection Changes",
+                    "description": "Whether to record selection changes as separate actions in macros.",
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "com.gingerbeardman.Macro.compressMacro",
+                    "title": "Compress Macro",
+                    "description": "Group sequences of actions of the same type to reduce the total number of actions in the macro.\n\nNote: if you want to see the macro type character-by-character keep this disabled, but be aware macros will much larger.",
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "title": "Playback",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.gingerbeardman.Macro.slowPlaybackSpeed",
+                    "title": "Playback Delay (ms)",
+                    "description": "This delay is inserted between each action.",
+                    "type": "enum",
+                    "radio": false,
+                    "values": ["0", "10", "25", "50", "75", "100", "150", "200", "250", "300", "400", "500", "750", "1000", "1500"],
+                    "default": "10"
+                }
+            ]
+        },
+        {
+            "title": "Developer",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.gingerbeardman.Macro.debugLogs",
+                    "title": "Show Debug Logs",
+                    "description": "Print debugging messages to the Extension Console.",
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        }
+    ],
+
+    "sidebars": [
+        {
+            "id": "com.gingerbeardman.Macro.sidebar",
+            "name": "Macro",
+            "smallImage": "sidebar-small",
+            "smallSelectedImage": "sidebar-small-selected",
+            "largeImage": "sidebar-medium",
+            "largeSelectedImage": "sidebar-medium-selected",
+            "sections": [
+                {
+                    "id": "com.gingerbeardman.Macro.sidebar",
+                    "name": "Macro",
+                    "allowMultiple": false,
+                    "placeholderText": "No macros have been recorded.",
+                    "placeholderImage": "sidebar-large",
+                    "headerCommands": [
+                        {
+                            "title": "Play",
+                            "image": "__builtin.next",
+                            "tooltip": "Replay Selected",
+                            "command": "com.gingerbeardman.Macro.replayMacro",
+                            "when": "viewItem != null"
+                        },
+                        {
+                            "title": "Record",
+                            "image": "__builtin.add",
+                            "tooltip": "Start Recording",
+                            "command": "com.gingerbeardman.Macro.startRecording"
+                        },
+                        {
+                            "title": "Delete",
+                            "image": "__builtin.remove",
+                            "tooltip": "Delete Selected",
+                            "command": "com.gingerbeardman.Macro.removeMacro",
+                            "when": "viewItem != null"
+                        }
+                    ],
+                    "contextCommands": [
+                        {
+                            "title": "Replay",
+                            "command": "com.gingerbeardman.Macro.replayMacro",
+                            "when": "viewItem != null"
+                        },
+                        { "separator": true },
+                        {
+                            "title": "Compress",
+                            "command": "com.gingerbeardman.Macro.compressExistingMacro",
+                            "when": "viewItem != null"
+                        },
+                        {
+                            "title": "Duplicate",
+                            "command": "com.gingerbeardman.Macro.duplicateMacro",
+                            "when": "viewItem != null"
+                        },
+                        {
+                            "title": "Rename",
+                            "command": "com.gingerbeardman.Macro.renameMacro",
+                            "when": "viewItem != null"
+                        },
+                        { "separator": true },
+                        {
+                            "title": "Copy (Raw)",
+                            "command": "com.gingerbeardman.Macro.copyToClipboardRaw",
+                            "when": "viewItem != null"
+                        },
+                        {
+                            "title": "Copy (Readable)",
+                            "command": "com.gingerbeardman.Macro.copyToClipboardReadable",
+                            "when": "viewItem != null"
+                        },
+                        { "separator": true },
+                        {
+                            "title": "Delete",
+                            "command": "com.gingerbeardman.Macro.removeMacro",
+                            "when": "viewItem != null"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    
+    "commands": {
+        "editor": [
+            {
+                "title": "Start Recording",
+                "command": "com.gingerbeardman.Macro.startRecording",
+                "shortcut": "cmd-alt-m"
+            },
+            {
+                "title": "Replay Last Macro",
+                "command": "com.gingerbeardman.Macro.replayLastMacro",
+                "shortcut": "cmd-shift-m"
+            }
+        ],
+        "sidebar": [
+            {
+                "title": "Toggle Expansion",
+                "command": "com.gingerbeardman.Macro.toggleExpansion"
+            }
+        ]
+    }
+}

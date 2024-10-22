@@ -1,0 +1,34 @@
+{
+  "symbolColor" : {
+    "red" : 1,
+    "blue" : 0,
+    "alpha" : 1,
+    "green" : 0
+  },
+  "iconScale" : 0.6779560368342596,
+  "iconOffset" : [
+    0,
+    0
+  ],
+  "version" : 1,
+  "topColor" : {
+    "alpha" : 1,
+    "red" : 0.20648437500000005,
+    "blue" : 0.20648437500000005,
+    "green" : 0.20648437500000005
+  },
+  "shadowHeight" : 0.3,
+  "id" : "24670896-9CE6-40DD-86CB-111B3E0DEB8D",
+  "symbol" : {
+    "family" : "material-icons",
+    "name" : "circle",
+    "variant" : "default"
+  },
+  "bottomColor" : {
+    "red" : 0.10980392156862745,
+    "green" : 0.09411764705882353,
+    "alpha" : 1,
+    "blue" : 0.09411764705882353
+  },
+  "shadowOpacity" : 0
+}
