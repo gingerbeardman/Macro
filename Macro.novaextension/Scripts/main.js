@@ -1,3 +1,4 @@
+let recordSelectionActions = nova.config.get('com.gingerbeardman.Macro.recordSelectionActions') || true;
 let compressMacro = nova.config.get('com.gingerbeardman.Macro.compressMacro') || false;
 let debugEnabled = nova.config.get('com.gingerbeardman.Macro.debugLogs') || false;
 let slowPlaybackSpeed = nova.config.get('com.gingerbeardman.Macro.slowPlaybackSpeed') || "10";
@@ -134,11 +135,14 @@ class MacroSystem {
         }
         // Check for selection changes
         else if (!this.areRangesEqual(lastState.selectedRange, currentState.selectedRange)) {
-            // Store selection relative to cursor position
-            action = { 
-                type: "SEL", 
-                count: currentState.selectedRange.start - lastState.cursorPosition
-            };
+            if (nova.config.get('com.gingerbeardman.Macro.recordSelectionActions')) {
+                console.log("record SEL");
+                // Store selection relative to cursor position
+                action = { 
+                    type: "SEL", 
+                    count: currentState.selectedRange.start - lastState.cursorPosition
+                };
+            }
         }
 
         debug('Derived action:', JSON.stringify(action));
@@ -248,11 +252,11 @@ class MacroSystem {
                     const basePosition = cursorPosition;
                     const relativeStart = Math.max(0, basePosition + action.count);
                     
-                    debug('Selection:', {
-                        basePosition,
-                        relativeStart,
-                        docLength: editor.document.length
-                    });
+                    // debug('Selection:', {
+                    //     basePosition,
+                    //     relativeStart,
+                    //     docLength: editor.document.length
+                    // });
                     
                     // Always select to current cursor position (end = basePosition)
                     const selStart = Math.min(relativeStart, editor.document.length);
@@ -480,6 +484,7 @@ let macroSystem = new MacroSystem();
 let macrosView;
 
 function handleConfigChange() {
+    recordSelectionActions = nova.config.get('com.gingerbeardman.Macro.recordSelectionActions') || true;
     compressMacro = nova.config.get('com.gingerbeardman.Macro.compressMacro') || false;
     slowPlaybackSpeed = nova.config.get('com.gingerbeardman.Macro.slowPlaybackSpeed') || "10";
     debugEnabled = nova.config.get('com.gingerbeardman.Macro.debugLogs') || false;
@@ -489,6 +494,7 @@ exports.activate = function() {
     debug('Macro extension activated');
 
     // Add config change listeners
+    nova.config.onDidChange('com.gingerbeardman.Macro.recordSelectionActions', handleConfigChange);
     nova.config.onDidChange('com.gingerbeardman.Macro.compressMacro', handleConfigChange);
     nova.config.onDidChange('com.gingerbeardman.Macro.debug', handleConfigChange);
     nova.config.onDidChange('com.gingerbeardman.Macro.slowPlaybackSpeed', handleConfigChange);
