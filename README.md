@@ -4,7 +4,7 @@
 
 This is an extension for the [Nova editor](https://nova.app).
 
-Record and play text editing as macros in the editor.
+Record and replay text editing as macros in the editor.
 
 See the internal [README](/Macro.novaextension/README.md) for more info.
 
