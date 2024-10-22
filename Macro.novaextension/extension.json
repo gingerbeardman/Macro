@@ -4,6 +4,7 @@
     "funding": "https://ko-fi.com/gingerbeardman",
     "homepage": "https://www.gingerbeardman.com",
     "identifier": "com.gingerbeardman.Macro",
+    "license": "LGPL",
     "name": "Macro",
     "organization": "gingerbeardman",
     "repository": "https://github.com/gingerbeardman/Macros",
@@ -35,8 +36,8 @@
                 },
                 {
                     "key": "com.gingerbeardman.Macro.compressMacro",
-                    "title": "Compress Macro",
-                    "description": "Group sequences of actions of the same type to reduce the total number of actions in the macro.\n\nNote: if you want to see the macro type character-by-character keep this disabled, but be aware macros will much larger.",
+                    "title": "Automatically Compress Macro",
+                    "description": "Group sequences of actions of the same type to reduce the total number of actions in the macro.\nYou can compress any macro on-demand using the sidebar context menu.\n\nNote: if you want to see the macro type character-by-character keep this disabled, but be aware macros will much larger.",
                     "type": "boolean",
                     "default": false
                 }
