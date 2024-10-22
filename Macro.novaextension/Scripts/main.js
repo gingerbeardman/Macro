@@ -74,23 +74,23 @@ class MacroSystem {
         return i;
     }
 
-     deriveAction(lastState, currentState) {
+    deriveAction(lastState, currentState) {
         debug('Deriving action:', JSON.stringify({
-            lastState: JSON.stringify({
+            lastState: {
                 cursorPosition: lastState.cursorPosition,
                 selectedRange: lastState.selectedRange,
                 textLength: lastState.text.length
-            }),
-            currentState: JSON.stringify({
+            },
+            currentState: {
                 cursorPosition: currentState.cursorPosition,
                 selectedRange: currentState.selectedRange,
                 textLength: currentState.text.length
-            })
+            }
         }));
 
         let action = null;
-
-        // Check for text changes
+    
+        // First check text changes
         if (lastState.text !== currentState.text) {
             let commonPrefixLength = this.getCommonPrefixLength(lastState.text, currentState.text);
             let commonSuffixLength = this.getCommonSuffixLength(
@@ -122,29 +122,27 @@ class MacroSystem {
                 };
             }
         }
-        // Check for cursor movements
+        // Then check cursor movements
         else if (lastState.cursorPosition !== currentState.cursorPosition) {
             let lineDelta = this.getLineDelta(lastState.text, lastState.cursorPosition, currentState.cursorPosition);
             let columnDelta = this.getColumnDelta(lastState.text, lastState.cursorPosition, currentState.cursorPosition);
-
+    
             if (lineDelta !== 0) {
                 action = { type: "POS", direction: lineDelta > 0 ? "↓" : "↑", count: Math.abs(lineDelta) };
             } else if (columnDelta !== 0) {
                 action = { type: "POS", direction: columnDelta > 0 ? "→" : "←", count: Math.abs(columnDelta) };
             }
         }
-        // Check for selection changes
+        // Finally check selection changes
         else if (!this.areRangesEqual(lastState.selectedRange, currentState.selectedRange)) {
             if (nova.config.get('com.gingerbeardman.Macro.recordSelectionActions')) {
-                console.log("record SEL");
-                // Store selection relative to cursor position
                 action = { 
                     type: "SEL", 
                     count: currentState.selectedRange.start - lastState.cursorPosition
                 };
             }
         }
-
+    
         debug('Derived action:', JSON.stringify(action));
         return action;
     }
@@ -275,7 +273,7 @@ class MacroSystem {
     coalesceActions(actions) {
         return actions.reduce((coalesced, action) => {
             const lastAction = coalesced[coalesced.length - 1];
-
+            
             if (!lastAction || lastAction.type !== action.type) {
                 coalesced.push({...action});
             } else {
@@ -288,6 +286,7 @@ class MacroSystem {
                             coalesced.push({...action});
                         }
                         break;
+                        
                     case "DEL":
                         // Only coalesce deletions in the same direction
                         if ((lastAction.count > 0) === (action.count > 0)) {
@@ -296,6 +295,7 @@ class MacroSystem {
                             coalesced.push({...action});
                         }
                         break;
+                        
                     case "POS":
                         if (lastAction.direction === action.direction) {
                             lastAction.count += action.count;
@@ -303,10 +303,16 @@ class MacroSystem {
                             coalesced.push({...action});
                         }
                         break;
+                        
                     case "SEL":
-                        // Don't coalesce selections, just take the latest one
-                        coalesced[coalesced.length - 1] = {...action};
+                        // Only coalesce selections in the same direction
+                        if ((lastAction.count > 0) === (action.count > 0)) {
+                            lastAction.count += action.count;
+                        } else {
+                            coalesced.push({...action});
+                        }
                         break;
+                        
                     default:
                         coalesced.push({...action});
                 }
