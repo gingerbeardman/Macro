@@ -35,9 +35,9 @@ Last Macro refers to the one most recently recorded—the one at the bottom of t
 
 ## Sidebar
 
-- `>` Play selection (or double-click)
+- `>` Play selected macro (or double-click)
 - `+` Start Recording Macro
-- `-` Delete selection
+- `-` Delete selected macro
 
 ### Context Menu
 
