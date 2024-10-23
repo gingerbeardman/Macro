@@ -136,10 +136,24 @@ class MacroSystem {
         // Finally check selection changes
         else if (!this.areRangesEqual(lastState.selectedRange, currentState.selectedRange)) {
             if (nova.config.get('com.gingerbeardman.Macro.recordSelectionActions')) {
-                action = { 
-                    type: "SEL", 
-                    count: currentState.selectedRange.start - lastState.cursorPosition
-                };
+                // Handle both forward and backward selections
+                if (currentState.selectedRange.start !== lastState.selectedRange.start) {
+                    // Anchor point changed - this is a new selection
+                    const selectionDelta = currentState.selectedRange.start - lastState.selectedRange.start;
+                    action = { 
+                        type: "SEL", 
+                        count: selectionDelta
+                    };
+                } else if (currentState.selectedRange.end !== lastState.selectedRange.end) {
+                    // Active point changed - this is extending/shrinking selection
+                    const selectionDelta = currentState.selectedRange.end - lastState.selectedRange.end;
+                    action = { 
+                        type: "SEL", 
+                        count: selectionDelta
+                    };
+                }
+                debug('Selection change detected:', action);
+                return action;
             }
         }
     
@@ -246,19 +260,19 @@ class MacroSystem {
                     break;
                     
                 case "SEL":
-                    // Calculate relative positions and ensure they don't go below 0
-                    const basePosition = cursorPosition;
-                    const relativeStart = Math.max(0, basePosition + action.count);
-                    
-                    // debug('Selection:', {
-                    //     basePosition,
-                    //     relativeStart,
-                    //     docLength: editor.document.length
-                    // });
-                    
-                    // Always select to current cursor position (end = basePosition)
-                    const selStart = Math.min(relativeStart, editor.document.length);
-                    editor.selectedRange = new Range(selStart, basePosition);
+                    if (action.count === 0) {
+                        // Clear selection
+                        editor.selectedRange = new Range(cursorPosition, cursorPosition);
+                    } else {
+                        // Create selection
+                        if (action.count > 0) {
+                            // Forward selection
+                            editor.selectedRange = new Range(editor.selectedRange.start, editor.selectedRange.start + action.count);
+                        } else {
+                            // Backward selection
+                            editor.selectedRange = new Range(editor.selectedRange.end + action.count, editor.selectedRange.end);
+                        }
+                    }
                     break;
              }
         } catch (error) {
@@ -463,6 +477,8 @@ class MacrosDataProvider {
             case "SEL":
                 if (action.count) {
                     return `SEL ${action.count}`;
+                } else if (action.count == 0) {
+                    return `SEL 0`;
                 } else {
                     return `SEL (details unavailable)`;
                 }
