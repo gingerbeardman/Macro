@@ -15,13 +15,18 @@ To run Macro:
 To configure global preferences, open **Extensions → Extension Library...** then select Macros's **Settings** tab.
 
 - Recording
-  - Compress Macro
+  - Selection Changes
+    - default: on
+  - Automatically Compress Macro
     - default: off
 
 - Playback
   - Playback Delay (milliseconds)
     - default: 10
 
+- Developer
+  - Show Debug Logs
+    - default: off
 
 ## Commands
 
