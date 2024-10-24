@@ -1,6 +1,6 @@
 {
     "bugs": "https://github.com/gingerbeardman/Macros/issues",
-    "description": "Record and replay text editing",
+    "description": "Record and replay text editing changes",
     "funding": "https://ko-fi.com/gingerbeardman",
     "homepage": "https://www.gingerbeardman.com",
     "identifier": "com.gingerbeardman.Macro",

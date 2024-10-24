@@ -1,6 +1,9 @@
-**Macro** provides recording and playback of editor changes.
+**Macro** provides recording and replay of text editing changes.
+
+It captures typing, text modification, and cursor movement made during an editing session.
 
 Useful to speed up repetitive edits, to play back text changes for the purposes of screen recordings.
+
 
 ## Usage
 
@@ -32,7 +35,7 @@ To configure global preferences, open **Extensions → Extension Library...** th
 
 These can be summoned from the Editor meny, Command Palette, or by shortcut key:
 
-- Toggle Macro Recording (`Option`+`Cmd`+`m`)
+- Start Recording (`Option`+`Cmd`+`m`)
 - Replay Last Macro (`Shift`+`Cmd`+`m`)
 
 Last Macro refers to the one most recently recorded—the one at the bottom of the list.

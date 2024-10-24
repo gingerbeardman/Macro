@@ -316,9 +316,13 @@ class MacroSystem {
                         break;
                         
                     case "SEL":
-                        // Only coalesce selections in the same direction
+                        // The issue is here - selections are being counted cumulatively
+                        // when they should represent the final selection state
                         if ((lastAction.count > 0) === (action.count > 0)) {
-                            lastAction.count += action.count;
+                            // Instead of adding counts, we should take the final selection state
+                            lastAction.count = action.count;
+                            lastAction.start = action.start;
+                            lastAction.end = action.end;
                         } else {
                             coalesced.push({...action});
                         }

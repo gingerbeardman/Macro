@@ -1,10 +1,8 @@
-> WORK IN PROGRESS, almost ready
-
 # Macro
 
 This is an extension for the [Nova editor](https://nova.app).
 
-Record and replay text editing as macros in the editor.
+Record and replay text editing changes.
 
 See the internal [README](/Macro.novaextension/README.md) for more info.
 
