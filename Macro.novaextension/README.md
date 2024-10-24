@@ -91,11 +91,11 @@ Compression of a macro serves a few purposes:
 
 Raw macro (17 actions):
 ```
-{"name":"Macro 1","actions":[{"type":"INS","text":"N"},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"},{"type":"INS","text":"!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-1,"start":3,"end":4},{"type":"SEL","count":-2,"start":2,"end":4},{"type":"SEL","count":-3,"start":1,"end":4},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"V"},{"type":"INS","text":"A"},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"}],"isExpanded":false}
+{"name":"Macro 1","actions":[{"type":"INS","text":"N"},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"},{"type":"INS","text":"!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-1},{"type":"SEL","count":-2},{"type":"SEL","count":-3},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"V"},{"type":"INS","text":"A"},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"}],"isExpanded":false}
 ```
 Compressed macro (6 actions):
 ```
-[{"type":"INS","text":"Nova!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-3,"start":1,"end":4},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"VA"},{"type":"POS","direction":"←","count":3},{"type":"DEL","count":3},{"type":"INS","text":"ova"}]
+[{"type":"INS","text":"Nova!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-3},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"VA"},{"type":"POS","direction":"←","count":3},{"type":"DEL","count":3},{"type":"INS","text":"ova"}]
 ```
 
 This types:

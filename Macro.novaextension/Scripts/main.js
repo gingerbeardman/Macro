@@ -148,9 +148,7 @@ class MacroSystem {
                     
                     action = { 
                         type: "SEL",
-                        count: isForward ? Math.abs(selectionLength) : -Math.abs(selectionLength),
-                        start: currentStart,
-                        end: currentEnd
+                        count: isForward ? Math.abs(selectionLength) : -Math.abs(selectionLength)
                     };
                 }
             }
@@ -209,6 +207,7 @@ class MacroSystem {
         try {
             // Get current cursor position as base for relative operations
             const cursorPosition = editor.selectedRange.end;
+            const docLength = editor.document.length;
             
             switch (action.type) {
                 case "INS":
@@ -259,20 +258,50 @@ class MacroSystem {
                     break;
                     
                 case "SEL":
-                    if (action.forward) {
-                        // Forward selection - maintain cursor position as start point
-                        const selectionStart = cursorPosition;
-                        const selectionEnd = cursorPosition + Math.abs(action.count);
-                        editor.selectedRange = new Range(selectionStart, selectionEnd);
+                    debug('Selection starting state:', {
+                        cursorPosition,
+                        count: action.count,
+                        forward: action.forward,
+                        docLength
+                    });
+                    
+                    let start, end;
+                    
+                    // Handle selection based on count sign
+                    if (action.count >= 0) {
+                        // Forward selection
+                        start = Math.min(cursorPosition, docLength);
+                        end = Math.min(cursorPosition + action.count, docLength);
                     } else {
-                        // Backward selection - maintain cursor position as end point
-                        const selectionStart = cursorPosition + action.count; // action.count is negative
-                        editor.selectedRange = new Range(selectionStart, cursorPosition);
+                        // Backward selection
+                        start = Math.max(0, cursorPosition + action.count); // action.count is negative
+                        end = Math.min(cursorPosition, docLength);
+                    }
+                    
+                    debug('Selection calculated positions:', { start, end });
+                    
+                    // Final safety check
+                    if (start < 0) start = 0;
+                    if (end < 0) end = 0;
+                    if (start > docLength) start = docLength;
+                    if (end > docLength) end = docLength;
+                    
+                    // Ensure start is always less than end
+                    if (start > end) {
+                        [start, end] = [end, start];
+                    }
+                    
+                    debug('Selection final positions:', { start, end });
+                    
+                    if (start >= 0 && end >= 0 && start <= docLength && end <= docLength) {
+                        editor.selectedRange = new Range(start, end);
+                    } else {
+                        console.error('Invalid selection range calculated:', { start, end, docLength });
                     }
                     break;
-                 }
+            }
         } catch (error) {
-            console.error('Error executing action', { action, error });
+            console.error('Error executing action', JSON.stringify({ action, error }));
         }
     }
 
@@ -320,8 +349,6 @@ class MacroSystem {
                         if ((lastAction.count > 0) === (action.count > 0)) {
                             // Instead of adding counts, we should take the final selection state
                             lastAction.count = action.count;
-                            lastAction.start = action.start;
-                            lastAction.end = action.end;
                         } else {
                             coalesced.push({...action});
                         }
