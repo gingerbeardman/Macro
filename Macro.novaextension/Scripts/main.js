@@ -122,38 +122,38 @@ class MacroSystem {
                 };
             }
         }
-        // Then check cursor movements
-        else if (lastState.cursorPosition !== currentState.cursorPosition) {
+        // Check for cursor position changes first
+        else if (lastState.cursorPosition !== currentState.cursorPosition && 
+            currentState.selectedRange.start === currentState.selectedRange.end) {  // Only if no selection
             let lineDelta = this.getLineDelta(lastState.text, lastState.cursorPosition, currentState.cursorPosition);
             let columnDelta = this.getColumnDelta(lastState.text, lastState.cursorPosition, currentState.cursorPosition);
-    
+        
             if (lineDelta !== 0) {
                 action = { type: "POS", direction: lineDelta > 0 ? "↓" : "↑", count: Math.abs(lineDelta) };
             } else if (columnDelta !== 0) {
                 action = { type: "POS", direction: columnDelta > 0 ? "→" : "←", count: Math.abs(columnDelta) };
             }
         }
-        // Finally check selection changes
+        // Then check for selection changes
         else if (!this.areRangesEqual(lastState.selectedRange, currentState.selectedRange)) {
             if (nova.config.get('com.gingerbeardman.Macro.recordSelectionActions')) {
-                // Handle both forward and backward selections
-                if (currentState.selectedRange.start !== lastState.selectedRange.start) {
-                    // Anchor point changed - this is a new selection
-                    const selectionDelta = currentState.selectedRange.start - lastState.selectedRange.start;
+                const currentStart = currentState.selectedRange.start;
+                const currentEnd = currentState.selectedRange.end;
+                const lastCursor = lastState.selectedRange.end;
+                
+                // Only record actual selections, not cursor movements
+                if (currentEnd !== currentStart) {
+                    const selectionLength = currentEnd - currentStart;
+                    const isForward = currentEnd > lastCursor;
+                    
                     action = { 
-                        type: "SEL", 
-                        count: selectionDelta
-                    };
-                } else if (currentState.selectedRange.end !== lastState.selectedRange.end) {
-                    // Active point changed - this is extending/shrinking selection
-                    const selectionDelta = currentState.selectedRange.end - lastState.selectedRange.end;
-                    action = { 
-                        type: "SEL", 
-                        count: selectionDelta
+                        type: "SEL",
+                        count: isForward ? Math.abs(selectionLength) : -Math.abs(selectionLength),
+                        start: currentStart,
+                        end: currentEnd,
+                        forward: isForward
                     };
                 }
-                debug('Selection change detected:', action);
-                return action;
             }
         }
     
@@ -260,21 +260,18 @@ class MacroSystem {
                     break;
                     
                 case "SEL":
-                    if (action.count === 0) {
-                        // Clear selection
-                        editor.selectedRange = new Range(cursorPosition, cursorPosition);
+                    if (action.forward) {
+                        // Forward selection - maintain cursor position as start point
+                        const selectionStart = cursorPosition;
+                        const selectionEnd = cursorPosition + Math.abs(action.count);
+                        editor.selectedRange = new Range(selectionStart, selectionEnd);
                     } else {
-                        // Create selection
-                        if (action.count > 0) {
-                            // Forward selection
-                            editor.selectedRange = new Range(editor.selectedRange.start, editor.selectedRange.start + action.count);
-                        } else {
-                            // Backward selection
-                            editor.selectedRange = new Range(editor.selectedRange.end + action.count, editor.selectedRange.end);
-                        }
+                        // Backward selection - maintain cursor position as end point
+                        const selectionStart = cursorPosition + action.count; // action.count is negative
+                        editor.selectedRange = new Range(selectionStart, cursorPosition);
                     }
                     break;
-             }
+                 }
         } catch (error) {
             console.error('Error executing action', { action, error });
         }
@@ -598,6 +595,12 @@ nova.commands.register("com.gingerbeardman.Macro.copyToClipboardReadable", (work
         copyToClipboardReadable(selectedItems[0]);
     }
 });
+nova.commands.register("com.gingerbeardman.Macro.copyToClipboardCompressed", (workspace) => {
+    let selectedItems = macrosView.selection;
+    if (selectedItems && selectedItems.length > 0) {
+        copyToClipboardCompressed(selectedItems[0]);
+    }
+});
 
 nova.commands.register("com.gingerbeardman.Macro.replayLastMacro", () => {
     if (macroSystem.macros.length > 0) {
@@ -651,6 +654,16 @@ function copyToClipboardReadable(name) {
     let macro = macroSystem.macros.find(m => m.name === name);
     if (macro) {
         nova.clipboard.writeText(formatMacroToString(macro));
+    } else {
+        nova.beep();
+        debug("Macro not found: " + name);
+    }
+}
+
+function copyToClipboardCompressed(name) {
+    let macro = macroSystem.macros.find(m => m.name === name);
+    if (macro) {
+        nova.clipboard.writeText(JSON.stringify(macroSystem.coalesceActions(macro.actions)));
     } else {
         nova.beep();
         debug("Macro not found: " + name);

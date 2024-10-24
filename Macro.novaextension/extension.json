@@ -134,6 +134,11 @@
                         },
                         { "separator": true },
                         {
+                            "title": "Copy (Compressed)",
+                            "command": "com.gingerbeardman.Macro.copyToClipboardCompressed",
+                            "when": "viewItem != null"
+                        },
+                        {
                             "title": "Copy (Raw)",
                             "command": "com.gingerbeardman.Macro.copyToClipboardRaw",
                             "when": "viewItem != null"
