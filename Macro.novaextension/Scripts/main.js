@@ -400,7 +400,7 @@ class MacroSystem {
         let request = new NotificationRequest("macro-recording-started");
         request.title = nova.localize("Macro");
         request.body = nova.localize("Recording...");
-        request.actions = [nova.localize("Stop")];
+        request.actions = [nova.localize(" STOP ")];
 
         nova.notifications.add(request).then(
             (response) => {
