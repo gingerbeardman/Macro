@@ -150,8 +150,7 @@ class MacroSystem {
                         type: "SEL",
                         count: isForward ? Math.abs(selectionLength) : -Math.abs(selectionLength),
                         start: currentStart,
-                        end: currentEnd,
-                        forward: isForward
+                        end: currentEnd
                     };
                 }
             }
@@ -819,7 +818,7 @@ exports.deactivate = function() {
 }
 
 function debug(...args) {
-    if (debugEnabled !== true) {
+    if (nova.config.get('com.gingerbeardman.Macro.debugLogs') !== true) {
         return; // Exit if debugging is not enabled
     }
 
