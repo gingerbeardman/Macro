@@ -1,6 +1,6 @@
 **Macro** provides recording and replay of text editing changes.
 
-Capture typing, text modification, selections, and cursor movement made during an editing session.
+Capture typing, text modification, selections, cursor movement, made during an editing session.
 
 Useful to speed up repetitive edits, to play back text changes for the purposes of screen recordings.
 
@@ -101,3 +101,7 @@ Compressed macro (6 actions):
 This types:
 
 - Nova!<move left 1><select -3><replace "ova" → "O">VA<move left 3><delete 3>ova
+
+Resulting in:
+
+- Nova!
