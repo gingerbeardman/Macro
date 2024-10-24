@@ -83,13 +83,13 @@ In addition to this, each macro stores its own expanded/unexpanded state for the
 
 Raw macro (17 actions):
 ```
-{"name":"Macro 1","actions":[{"type":"INS","text":"N"},{"type":"INS","text":"o"},{"type":"INS","text":"o"},{"type":"INS","text":"n"},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"INS","text":"v"},{"type":"INS","text":"a"},{"type":"INS","text":"!"},{"type":"DEL","count":-1},{"type":"DEL","count":-1},{"type":"DEL","count":-1},{"type":"DEL","count":-1},{"type":"INS","text":"O"},{"type":"INS","text":"V"},{"type":"INS","text":"A"},{"type":"INS","text":"!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-1,"start":3,"end":4,"forward":false},{"type":"SEL","count":-2,"start":2,"end":4,"forward":false},{"type":"SEL","count":-3,"start":1,"end":4,"forward":false},{"type":"REP","old":"OVA","new":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"}],"isExpanded":false}
+{"name":"Macro 1","actions":[{"type":"INS","text":"N"},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"},{"type":"INS","text":"!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-1,"start":3,"end":4},{"type":"SEL","count":-2,"start":2,"end":4},{"type":"SEL","count":-3,"start":1,"end":4},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"V"},{"type":"INS","text":"A"},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"}],"isExpanded":false}
 ```
 Compressed macro (6 actions):
 ```
-[{"type":"INS","text":"Noon"},{"type":"POS","direction":"←","count":2},{"type":"DEL","count":2},{"type":"INS","text":"va!"},{"type":"DEL","count":-4},{"type":"INS","text":"OVA!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-3,"start":1,"end":4,"forward":false},{"type":"REP","old":"OVA","new":"o"},{"type":"INS","text":"va"}]
+[{"type":"INS","text":"Nova!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-3,"start":1,"end":4},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"VA"},{"type":"POS","direction":"←","count":3},{"type":"DEL","count":3},{"type":"INS","text":"ova"}]
 ```
 
 This types:
 
-- Noon<move left 2><delete 2>va!<delete -4>OVA!<move left 1><select -3><replace "OVA" → "o">va
+- Nova!<move left 1><select -3><replace "ova" → "O">VA<move left 3><delete 3>ova
