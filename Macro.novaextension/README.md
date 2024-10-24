@@ -38,7 +38,7 @@ These can be summoned from the Editor meny, Command Palette, or by shortcut key:
 - Start Recording (`Option`+`Cmd`+`m`)
 - Replay Last Macro (`Shift`+`Cmd`+`m`)
 
-Last Macro refers to the one most recently recorded—the one at the bottom of the list.
+Last Macro refers to the one at the bottom of the list, usually the most recently recorded or processed.
 
 
 ## Sidebar
@@ -72,14 +72,22 @@ After recording a macro a number of options become available via the context men
 The following actions are recorded:
 
 - INS (insertion)
-- DEL (deletion)
+- DEL (deletion, +/-)
 - POS (cursor position, +/-)
 - SEL (selection, +/-)
-- REP (replace selected text)
+- REP (replace selection)
 
 In addition to this, each macro stores its own expanded/unexpanded state for the sidebar.
 
-### Example Macro
+### Compression
+
+Compression of a macro serves a few purposes:
+- reduce size
+- speed up playback
+- increase readability
+
+
+## Example Macro
 
 Raw macro (17 actions):
 ```
