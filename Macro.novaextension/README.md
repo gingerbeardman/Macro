@@ -36,7 +36,7 @@ To configure global preferences, open **Extensions → Extension Library...** th
 
 ## Commands
 
-These can be summoned from the Editor meny, Command Palette, or by shortcut key:
+These can be summoned from the Editor menu, Command Palette, or by shortcut key:
 
 - Start Recording (`Option`+`Cmd`+`m`)
 - Replay Last Macro (`Shift`+`Cmd`+`m`)
