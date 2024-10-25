@@ -2,7 +2,7 @@
 
 Capture typing, text modification, selections, cursor movement, made during an editing session.
 
-Useful to speed up repetitive edits, to play back text changes for the purposes of screen recordings.
+Useful to speed up repetitive edits, to play back text changes for the purposes of screen recordings. Or just to roll your own clips/snippets on-demand.
 
 
 ## Usage
@@ -17,18 +17,21 @@ To run Macro:
 
 To configure global preferences, open **Extensions → Extension Library...** then select Macros's **Settings** tab.
 
-- Recording
-  - Selection Changes
+**Recording**
+
+- Selection Changes
     - default: on
-  - Automatically Compress Macro
+- Automatically Compress Macro
     - default: off
 
-- Playback
-  - Playback Delay (milliseconds)
+**Playback**
+
+- Playback Delay (milliseconds)
     - default: 10
 
-- Developer
-  - Show Debug Logs
+**Developer**
+
+- Show Debug Logs
     - default: off
 
 ## Commands
@@ -82,6 +85,7 @@ In addition to this, each macro stores its own expanded/unexpanded state for the
 ### Compression
 
 Compression of a macro serves a few purposes:
+
 - reduce size
 - speed up playback
 - increase readability
@@ -90,10 +94,12 @@ Compression of a macro serves a few purposes:
 ## Example Macro
 
 Raw macro (17 actions):
+
 ```
 {"name":"Macro 1","actions":[{"type":"INS","text":"N"},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"},{"type":"INS","text":"!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-1},{"type":"SEL","count":-2},{"type":"SEL","count":-3},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"V"},{"type":"INS","text":"A"},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"POS","direction":"←","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"DEL","count":1},{"type":"INS","text":"o"},{"type":"INS","text":"v"},{"type":"INS","text":"a"}],"isExpanded":false}
 ```
 Compressed macro (6 actions):
+
 ```
 [{"type":"INS","text":"Nova!"},{"type":"POS","direction":"←","count":1},{"type":"SEL","count":-3},{"type":"REP","old":"ova","new":"O"},{"type":"INS","text":"VA"},{"type":"POS","direction":"←","count":3},{"type":"DEL","count":3},{"type":"INS","text":"ova"}]
 ```
