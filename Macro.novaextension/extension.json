@@ -1,5 +1,5 @@
 {
-    "bugs": "https://github.com/gingerbeardman/Macros/issues",
+    "bugs": "https://github.com/gingerbeardman/Macro/issues",
     "description": "Record and replay text editing changes",
     "funding": "https://ko-fi.com/gingerbeardman",
     "homepage": "https://www.gingerbeardman.com",
@@ -7,8 +7,8 @@
     "license": "LGPL",
     "name": "Macro",
     "organization": "gingerbeardman",
-    "repository": "https://github.com/gingerbeardman/Macros",
-    "version": "1.0.3",
+    "repository": "https://github.com/gingerbeardman/Macro",
+    "version": "1.0.4",
     
     "categories": ["sidebars"],
     
